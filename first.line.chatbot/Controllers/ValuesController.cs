@@ -10,24 +10,24 @@ using Microsoft.IdentityModel.Protocols;
 
 namespace first.line.chatbot.Controllers
 {
-    [Route("api/values")]
+    [Route("api")]
     public class ValuesController : Controller
     {
-        // GET api/values
+        // GET api/
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/values/5
+        // GET api/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            return "value " + id;
         }
 
-        // POST api/values
+        // POST api/
         [HttpPost]
         public void Post([FromBody]string value)
         {
@@ -59,14 +59,13 @@ namespace first.line.chatbot.Controllers
        //    return Request.CreateResponse(HttpStatusCode.OK);
        //}
 
-
-        // PUT api/values/5
+        // PUT api/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE api/values/5
+        // DELETE api/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
