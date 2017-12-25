@@ -17,7 +17,8 @@ namespace first.line.chatbot.Controllers
         [HttpGet]
         public string Get()
         {
-            var dummy = ConfigurationManager.AppSettings["DummyVar"];
+            //var dummy = ConfigurationManager.AppSettings["DummyVar"];
+            var dummy = Environment.GetEnvironmentVariable("DummyVar")
             //return new string[] { "value1", "value2" };
             return "dummy: " + dummy;
         }
