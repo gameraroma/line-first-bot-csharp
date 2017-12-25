@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Line.Messaging;
 using Line.Messaging.Webhooks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Protocols;
 
 namespace first.line.chatbot.Controllers
@@ -13,11 +14,24 @@ namespace first.line.chatbot.Controllers
     [Route("api")]
     public class ValuesController : Controller
     {
+        public string GetDummyVar()
+        {
+            var builder = new ConfigurationBuilder(); 
+            var configuration = builder.Build();
+            
+            var dummyString = configuration.GetValue("DummyVar", "zzzzz");
+
+            return dummyString;
+        }
+
         // GET api/
         [HttpGet]
-        public IEnumerable<string> Get()
+        public string Get()
         {
-            return new string[] { "value1", "value2" };
+            var dummy = GetDummyVar();
+
+            //return new string[] { "value1", "value2" };
+            return dummy;
         }
 
         // GET api/5
