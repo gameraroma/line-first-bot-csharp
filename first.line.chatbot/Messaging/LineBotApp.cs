@@ -1,8 +1,6 @@
 ﻿using Line.Messaging;
 using Line.Messaging.Webhooks;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace first.line.chatbot.Messaging

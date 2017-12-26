@@ -1,8 +1,6 @@
-﻿using first.line.chatbot.Models;
-using Line.Messaging;
+﻿using Line.Messaging;
 using Line.Messaging.Webhooks;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,8 +29,6 @@ namespace first.line.chatbot.LineMessaging
 
             if (isValid)
             {
-                var eventsObject = JsonConvert.DeserializeObject<WebhookEventBody>(body);
-                var events = eventsObject.Events;
                 return WebhookEventParser.Parse(body);
             }
             else
