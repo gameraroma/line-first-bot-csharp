@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using first.line.chatbot.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Line.Messaging;
+using Line.Messaging.Webhooks;
+using System.Net.Http;
 
 namespace first.line.chatbot.Controllers
 {
@@ -12,8 +16,12 @@ namespace first.line.chatbot.Controllers
     public class CallbackController : Controller
     {
         [HttpPost]
-        public ActionResult Callback()
+        public async Task<ActionResult> Callback([FromBody] MessageEvent request, [FromHeader] HeaderDictionary ex)
         {
+            //var events = await request.GetWebhookEventsAsync("");
+
+            var events = Request;
+
             return new StatusCodeResult(200);
         }
     }
