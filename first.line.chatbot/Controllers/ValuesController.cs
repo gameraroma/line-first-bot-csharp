@@ -7,6 +7,11 @@ using Line.Messaging;
 using Line.Messaging.Webhooks;
 using Microsoft.AspNetCore.Mvc;
 using System.Configuration;
+using Newtonsoft.Json;
+using System.Text;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Converters;
+using System.Net;
 
 namespace first.line.chatbot.Controllers
 {
@@ -15,10 +20,30 @@ namespace first.line.chatbot.Controllers
     {
         // GET api/
         [HttpGet]
-        public string Get()
+        public HttpResponseMessage Get()
         {
             var dummy = Environment.GetEnvironmentVariable("DummyVar");
-            return "dummy: " + dummy;
+
+            var key = "The key";
+            var value = "This is value!!!";
+
+            var content = JsonConvert.SerializeObject(new { key, value }, new CamelCaseJsonSerializerSettings());
+            var Content = new StringContent(content, Encoding.UTF8, "application/json");
+            
+            HttpResponseMessage responseMsg = new HttpResponseMessage(HttpStatusCode.OK);
+            responseMsg.Content = new StringContent(content, Encoding.UTF8, "application/json");
+
+            //return "dummy: สวัสดีจ้า " + dummy;
+            return responseMsg;
+        }
+
+        internal class CamelCaseJsonSerializerSettings : JsonSerializerSettings
+        {
+            public CamelCaseJsonSerializerSettings()
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver();
+                Converters.Add(new StringEnumConverter { CamelCaseText = true });
+            }
         }
 
         // GET api/5

@@ -19,7 +19,8 @@ namespace first.line.chatbot.Messaging
             switch (ev.Message.Type)
             {
                 case EventMessageType.Text:
-                    await MessagingClient.ReplyMessageAsync(ev.ReplyToken, ((TextEventMessage)ev.Message).Text);
+                    //await MessagingClient.ReplyMessageAsync(ev.ReplyToken, ((TextEventMessage)ev.Message).Text);
+                    await MessagingClient.ReplyMessageAsync(ev.ReplyToken, "สวัสดีจร้า...");
                     break;
 
                 case EventMessageType.Image:
