@@ -3,7 +3,6 @@ using Line.Messaging;
 using Line.Messaging.Webhooks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs.Host;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
