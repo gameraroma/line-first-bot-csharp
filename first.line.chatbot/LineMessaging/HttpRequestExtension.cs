@@ -11,6 +11,11 @@ namespace first.line.chatbot.LineMessaging
 {
     internal static class HttpRequestExtension
     {
+        /// <summary>
+        /// Verify if the request is valid, then returns LINE Webhook events from the request
+        /// </summary>
+        /// <param name="request">HttpRequest</param>
+        /// <returns>List of WebhookEvent</returns>
         internal static async Task<IEnumerable<WebhookEvent>> GetWebhookEventsAsync(this HttpRequest request)
         {
             var channelSecret = Environment.GetEnvironmentVariable("LineBotChannelSecret");
