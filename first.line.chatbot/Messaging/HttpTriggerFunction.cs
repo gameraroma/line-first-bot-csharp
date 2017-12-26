@@ -41,7 +41,7 @@ namespace first.line.chatbot.Messaging
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                return new StatusCodeResult(500);
                 throw;
             }
 
