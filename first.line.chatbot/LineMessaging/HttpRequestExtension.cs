@@ -29,16 +29,14 @@ namespace first.line.chatbot.LineMessaging
 
             var isValid = ValidateSignature.IsSignatureValid(channelSecret, body, lineSignature);
 
-            if (isValid)
-            {
-                var eventsObject = JsonConvert.DeserializeObject<WebhookEventBody>(body);
-                var events = eventsObject.Events;
-                return events;
-            }
-            else
-            {
-                throw new InvalidSignatureException();
-            }
+            var eventsObject = JsonConvert.DeserializeObject<WebhookEventBody>(body);
+            var events = eventsObject.Events;
+
+
+            var webhookEvents = new List<WebhookEvent>();
+            foreach (var ev in events)
+                webhookEvents.Add(ev as WebhookEvent);
+            return webhookEvents;
         }
     }
 }
