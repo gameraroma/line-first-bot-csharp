@@ -23,7 +23,9 @@ namespace first.line.chatbot.Controllers
             try
             {
                 //Parse Webhook-Events
-                var channelSecret = System.Configuration.ConfigurationManager.AppSettings["LineBotChannelSecret"];
+                var channelSecret = Environment.GetEnvironmentVariable("LineBotChannelSecret");
+                if (channelSecret == null)
+                    channelSecret = "";
                 events = await req.GetWebhookEventsAsync(channelSecret);
             }
             catch (InvalidSignatureException e)
@@ -35,7 +37,10 @@ namespace first.line.chatbot.Controllers
             try
             {
                 //Process the webhook-events
-                var client = new LineMessagingClient(System.Configuration.ConfigurationManager.AppSettings["LineBotChannelToken"]);
+                var channelToken = Environment.GetEnvironmentVariable("LineBotChannelToken");
+                if (channelToken == null)
+                    channelToken = "";
+                var client = new LineMessagingClient(channelToken);
                 var app = new LineBotApp(client);
                 await app.RunAsync(events);
             }
