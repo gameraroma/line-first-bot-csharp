@@ -1,5 +1,10 @@
-﻿using Line.Messaging;
+﻿using first.line.chatbot.LineMessaging;
+using Line.Messaging;
+using Line.Messaging.Webhooks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace first.line.chatbot.Messaging
@@ -10,39 +15,36 @@ namespace first.line.chatbot.Messaging
 
         public HttpTriggerFunction()
         {
-            _messagingClient = new LineMessagingClient(Environment.GetEnvironmentVariable("LineBotChannelToken"));
+            var channelToken = Environment.GetEnvironmentVariable("LineBotChannelToken");
+            if (channelToken == null)
+                channelToken = "";
+
+            _messagingClient = new LineMessagingClient(channelToken);
         }
 
-        //public static async Task<HttpResponseMessage> Run(HttpRequestMessage req)
-        //{
-        //    IEnumerable<WebhookEvent> events;
-        //    try
-        //    {
-        //        //Parse Webhook-Events
-        //        var channelSecret = System.Configuration.ConfigurationManager.AppSettings["ChannelSecret"];
-        //        events = await req.GetWebhookEventsAsync(channelSecret);
-        //    }
-        //    catch (InvalidSignatureException e)
-        //    {
-        //        //Signature validation failed
-        //        return req.CreateResponse(HttpStatusCode.Forbidden, new { Message = e.Message });
-        //    }
+        public async Task<StatusCodeResult> Run(HttpRequest req)
+        {
+            IEnumerable<WebhookEvent> events;
+            try
+            {
+                events = await req.GetWebhookEventsAsync();
+            }
+            catch (InvalidSignatureException e)
+            {
+                return new StatusCodeResult(403);
+            }
 
-        //    try
-        //    {
-        //        var connectionString = System.Configuration.ConfigurationManager.AppSettings["AzureWebJobsStorage"];
-        //        var tableStorage = await LineBotTableStorage.CreateAsync(connectionString);
-        //        var blobStorage = await BlobStorage.CreateAsync(connectionString, "linebotcontainer");
-        //        //Process the webhook-events
-        //        var app = new LineBotApp(lineMessagingClient, tableStorage, blobStorage, log);
-        //        await app.RunAsync(events);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        log.Error(e.ToString());
-        //    }
+            try
+            {
+                var app = new LineBotApp(_messagingClient);
+                await app.RunAsync(events);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
 
-        //    return req.CreateResponse(HttpStatusCode.OK);
-        //}
+            return new StatusCodeResult(200);
+        }
     }
 }
