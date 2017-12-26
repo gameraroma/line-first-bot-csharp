@@ -3,6 +3,7 @@ using Line.Messaging;
 using Line.Messaging.Webhooks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs.Host;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -41,8 +42,7 @@ namespace first.line.chatbot.Messaging
             }
             catch (Exception e)
             {
-                return new StatusCodeResult(500);
-                throw;
+                Console.WriteLine(e);
             }
 
             return new StatusCodeResult(200);
